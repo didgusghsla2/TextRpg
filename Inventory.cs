@@ -8,14 +8,17 @@
         public int Defense { get; set; }
         public bool IsEquipped { get; set; }
 
+        public int Prices { get; set; }
 
-        public Item(string name, string description, int attack, int defense, bool isEquipped)
+
+        public Item(string name, string description, int attack, int defense, bool isEquipped, int prices)
         {
             Name = name;
             Description = description;
             Attack = attack;
             Defense = defense;
             IsEquipped = isEquipped;
+            Prices = prices;
         }
 
     }
@@ -23,7 +26,17 @@
     {
 
         private List<Item> items = new List<Item>();
-        
+        public List<Item> GetItems()
+        {
+            return items; // 아이템 리스트 반환
+        }
+
+        public void AddItem(Item item)
+        {
+            items.Add(item);
+        }
+
+
         // 장비한 아이템의 공격력 합산
         public int GetEquippedItemAttack()
         {
@@ -38,9 +51,10 @@
 
         public Inventory()
         {
-            items.Add(new Item("무쇠갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 5, false));
-            items.Add(new Item("스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창", 7, 0, false));
-            items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검", 2, 0, false));
+            items.Add(new Item("무쇠 갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 5, false, 2000));
+            items.Add(new Item("스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창", 7, 0, false, 3000));
+            items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검", 2, 0, false, 600));
+
         }
 
         public void ShowInventory()
@@ -49,6 +63,7 @@
             Console.WriteLine("인벤토리");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
+            Console.WriteLine("현재 보유 중인 장비 갯수 - " + items.Count);
             Console.WriteLine("[아이템 목록]");
             Console.WriteLine("");
             if (items.Count == 0)
@@ -90,8 +105,11 @@
             Console.WriteLine("인벤토리 - 장착 관리");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
+            Console.WriteLine("현재 보유 중인 장비 갯수 - " + items.Count);
             Console.WriteLine("[아이템 목록]");
             Console.WriteLine("");
+
+            // 아이템 목록 출력
             if (items.Count == 0)
             {
                 Console.WriteLine("아이템이 없습니다.");
@@ -104,40 +122,42 @@
                     Console.WriteLine($"- {i + 1}{(item.IsEquipped ? " [E]" : "")} {item.Name} | {(item.Attack == 0 ? "방어력 +" + item.Defense : "공격력 +" + item.Attack)} | {item.Description}");
                 }
             }
+
             Console.WriteLine("");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
 
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
+            int PlayerChoice = int.Parse(Console.ReadLine());
 
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            switch (PlayerChoiecs)
+            if (PlayerChoice == 0)
             {
-                case 0:
-                    ShowInventory(); 
-                    break;
-                default:
-                    if (PlayerChoiecs > 0 && PlayerChoiecs <= items.Count)
-                    {
-                        var selectedItem = items[PlayerChoiecs - 1];
-                        if (selectedItem.IsEquipped)
-                        {
-                            selectedItem.IsEquipped = false; 
-                        }
-                        else
-                        {
-                            selectedItem.IsEquipped = true; 
-                        }
-                        EquipItem(); 
-                    }
-                    else
-                    {
-                        Console.WriteLine("잘못된 입력입니다.");
-                        EquipItem(); 
-                    }
-                    break;
+                ShowInventory();
+                return; 
             }
+
+            if (PlayerChoice > 0 && PlayerChoice <= items.Count)
+            {
+                var selectedItem = items[PlayerChoice - 1];
+                if (selectedItem.IsEquipped)
+                {
+                    // 이미 장착된 아이템을 해제
+                    selectedItem.IsEquipped = false;
+                }
+                else
+                {
+                    // 아이템 장착
+                    selectedItem.IsEquipped = true;
+                }
+            }
+            else
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+
+            // 장착 관리 다시 호출
+            EquipItem();
         }
     }
 }

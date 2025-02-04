@@ -4,15 +4,17 @@
     {
         Game game = Game.GetInstance();
         private Inventory inventory;
+        private Player player;
         int itemAttack = 0;
         int itemDefense = 0;
-        public Status(Inventory inventory)
+        public Status(Inventory inventory, Player player)
         {
             this.inventory = inventory;
+            this.player = player;
         }
         public void ShowStatus()
         {
-            Player player = new Player();
+
             itemAttack = inventory.GetEquippedItemAttack();
             itemDefense = inventory.GetEquippedItemDefense();
 

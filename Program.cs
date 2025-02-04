@@ -8,12 +8,14 @@ namespace TextRPG
         private static Game instance;
 
         private Inventory inventory;
+        private Player player;
         private Status status;
+        private Shop shop;
 
         private Game()
         {
             inventory = new Inventory();
-
+            player = new Player();
         }
 
       public static Game GetInstance()
@@ -50,7 +52,7 @@ namespace TextRPG
             }
             else if (PlayerChoiecs == 3)
             {
-
+                ShopView();
             }
             else
             {
@@ -62,7 +64,7 @@ namespace TextRPG
         // 상태보기
         public void StatusView()
         {
-            status = new Status(inventory);
+            status = new Status(inventory, player);
             status.ShowStatus();
         }
 
@@ -70,6 +72,12 @@ namespace TextRPG
         public void InventoryView()
         {
             inventory.ShowInventory();
+        }
+
+        public void ShopView()
+        {
+            shop = new Shop(player, inventory);
+            shop.ShopOpen();
         }
 
         static void Main(string[] args)
