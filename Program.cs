@@ -7,15 +7,20 @@ namespace TextRPG
 
         private static Game instance;
 
+        private Inventory inventory;
+        private Status status;
+
         private Game()
         {
+            inventory = new Inventory();
+
         }
 
-        public static Game GetInstance()
+      public static Game GetInstance()
         {
             if (instance == null)
             {
-                instance = new Game();
+                instance = new Game();  
             }
             return instance;
         }
@@ -57,20 +62,19 @@ namespace TextRPG
         // 상태보기
         public void StatusView()
         {
-            Status status = new Status();
+            status = new Status(inventory);
             status.ShowStatus();
         }
 
         // 인벤토리 열기
         public void InventoryView()
         {
-            Inventory inventory = new Inventory();
             inventory.ShowInventory();
         }
 
         static void Main(string[] args)
         {
-            Game program = new Game(); 
+            Game program = Game.GetInstance(); 
             program.GameMenu();
         }
 

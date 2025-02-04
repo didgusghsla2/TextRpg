@@ -21,20 +21,26 @@
     }
     internal class Inventory
     {
-        Game game = Game.GetInstance();
 
         private List<Item> items = new List<Item>();
+        
+        // 장비한 아이템의 공격력 합산
+        public int GetEquippedItemAttack()
+        {
+            return items.Where(item => item.IsEquipped).Sum(item => item.Attack);
+        }
+        //장비한 아이템의 방어력 합산
+        public int GetEquippedItemDefense()
+        {
+            return items.Where(item => item.IsEquipped).Sum(item => item.Defense);
+        }
+
 
         public Inventory()
         {
             items.Add(new Item("무쇠갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 5, false));
             items.Add(new Item("스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창", 7, 0, false));
             items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검", 2, 0, false));
-        }
-
-        public List<Item> GetEquippedItems()
-        {
-            return items.Where(item => item.IsEquipped).ToList();
         }
 
         public void ShowInventory()
@@ -71,7 +77,7 @@
             }
             else if (PlayerChoiecs == 0)
             {
-                game.GameMenu();
+                Game.GetInstance().GameMenu();
             }
             else
             {
@@ -82,7 +88,6 @@
         {
             Console.Clear();
             Console.WriteLine("인벤토리 - 장착 관리");
-            Console.WriteLine(GetEquippedItems());
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
