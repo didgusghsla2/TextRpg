@@ -44,26 +44,34 @@ namespace TextRPG
             Console.Write(">>");
 
 
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs == 1)
+            while (true)
             {
-                StatusView();
-            }
-            else if (PlayerChoiecs == 2)
-            {
-                InventoryView();
-            }
-            else if (PlayerChoiecs == 3)
-            {
-                ShopView();
-            }
-            else if (PlayerChoiecs == 4)
-            {
-                Rest();
-            }
-            else
-            {
-               Console.WriteLine("잘못된 입력입니다.");
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                {
+                    switch (playerChoice)
+                    {
+                        case 1:
+                            StatusView();
+                            break;
+                        case 2:
+                            InventoryView();
+                            break;
+                        case 3:
+                            ShopView();
+                            break;
+                        case 4:
+                            Rest();
+                            break;
+                        default:
+                            Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                            continue; // 다시 입력하도록 루프 반복
+                    }
+                    break; // 올바른 선택을 하면 루프 종료
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요.");
+                }
             }
 
         }

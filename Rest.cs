@@ -18,20 +18,30 @@
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs == 1)
+
+            while (true)
             {
-                Sleep();
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                {
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            Game.GetInstance().GameMenu();
+                            break;
+                        case 1:
+                            Sleep();
+                            break;
+                        default:
+                            Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                            continue; // 다시 입력하도록 루프 반복
+                    }
+                    break; // 올바른 선택을 하면 루프 종료
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요.");
+                }
             }
-            else if (PlayerChoiecs == 0)
-            {
-                Game.GetInstance().GameMenu();
-            }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
-            }
-            
         }
         void Sleep()
         {
@@ -52,18 +62,29 @@
                     Console.WriteLine("Gold 가 부족합니다.");
                 }
             }
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs == 1)
+
+            while (true)
             {
-                Sleep();
-            }
-            else if (PlayerChoiecs == 0)
-            {
-                Game.GetInstance().GameMenu();
-            }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                {
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            Game.GetInstance().GameMenu();
+                            break;
+                        case 1:
+                            Sleep();
+                            break;
+                        default:
+                            Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                            continue; // 다시 입력하도록 루프 반복
+                    }
+                    break; // 올바른 선택을 하면 루프 종료
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요.");
+                }
             }
         }
     }

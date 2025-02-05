@@ -92,18 +92,29 @@
 
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs == 1)
+
+            while (true)
             {
-                EquipItem();
-            }
-            else if (PlayerChoiecs == 0)
-            {
-                Game.GetInstance().GameMenu();
-            }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                {
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            Game.GetInstance().GameMenu();
+                            break;
+                        case 1:
+                            EquipItem();
+                            break;
+                        default:
+                            Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                            continue; // 다시 입력하도록 루프 반복
+                    }
+                    break; // 올바른 선택을 하면 루프 종료
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요.");
+                }
             }
         }
         public void EquipItem()
@@ -136,35 +147,37 @@
 
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int PlayerChoice = int.Parse(Console.ReadLine());
-
-            if (PlayerChoice == 0)
+            while (true)
             {
-                ShowInventory();
-                return; 
-            }
-
-            if (PlayerChoice > 0 && PlayerChoice <= items.Count)
-            {
-                var selectedItem = items[PlayerChoice - 1];
-                if (selectedItem.IsEquipped)
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
                 {
-                    // 이미 장착된 아이템을 해제
-                    selectedItem.IsEquipped = false;
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            ShowInventory();
+                            return;
+
+                        default:
+                            if (playerChoice > 0 && playerChoice <= items.Count)
+                            {
+                                var selectedItem = items[playerChoice - 1];
+                                selectedItem.IsEquipped = !selectedItem.IsEquipped; // 장착/해제 토글
+                                EquipItem();
+                                return; // 정상 입력이면 함수 종료
+                            }
+                            Console.WriteLine("잘못된 입력입니다.");
+                            break;
+                    }
                 }
                 else
                 {
-                    // 아이템 장착
-                    selectedItem.IsEquipped = true;
+                    Console.WriteLine("숫자를 입력해주세요.");
                 }
-            }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
+
+                 
             }
 
             // 장착 관리 다시 호출
-            EquipItem();
         }
     }
 }

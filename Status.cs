@@ -36,15 +36,28 @@
 
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs == 0)
+            while (true)
             {
-                game.GameMenu();
+            if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                {
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            game.GameMenu();
+                            break;
+                        default:
+                            Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                            continue; // 다시 입력하도록 루프 반복
+                    }
+                    break; // 올바른 선택을 하면 루프 종료
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요.");
+                }
             }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
-            }
+
+            
         }
 
     }

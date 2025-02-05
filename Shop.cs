@@ -10,7 +10,7 @@
         public Shop(Player player, Inventory inventory)
         {
             items.Add(new Item("수련자 갑옷", "수련에 도움을 주는 갑옷", 0, 5, false, 1000));
-            items.Add(new Item("무쇠 갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 9, false,2000));
+            items.Add(new Item("무쇠 갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 9, false, 2000));
             items.Add(new Item("스파르타의 갑옷", "스파르타의 전사들이 사용했다는 전설의 갑옷", 0, 15, false, 3500));
             items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검", 2, 0, false, 600));
             items.Add(new Item("청동 도끼", "어디선가 사용됐었던거 같은 도끼", 5, 0, false, 1500));
@@ -57,21 +57,31 @@
 
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs == 1)
+            while (true)
             {
-                Shopping();
-            }else if(PlayerChoiecs == 2)
-            {
-                SellItem();
-            }
-            else if (PlayerChoiecs == 0)
-            {
-                Game.GetInstance().GameMenu();
-            }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                {
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            Game.GetInstance().GameMenu();
+                            break;
+                        case 1:
+                            Shopping();
+                            break;
+                        case 2:
+                            SellItem();
+                            break;
+                        default:
+                            Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
+                            continue; // 다시 입력하도록 루프 반복
+                    }
+                    break; // 올바른 선택을 하면 루프 종료
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요.");
+                }
             }
         }
         void Shopping()
@@ -105,61 +115,92 @@
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            switch (PlayerChoiecs)
+            while (true)
             {
-                case 0:
-                    ShopOpen();
-                    break;
-                default:
-                    if (PlayerChoiecs > 0 && PlayerChoiecs <= items.Count)
-                    {
-                        BusyItem(PlayerChoiecs);
-                    }
-                    else
-                    {
-                        Console.WriteLine("잘못된 입력입니다.");
-                    }
-                    break;
-            }
-        }
-
-        // 아이템 구매
-        void BusyItem(int itemNum)
-        {
-             var item = items[itemNum-1];
-            // 보유 중인지 체크
-            bool isItemInInventory = Invenitems.Any(inventoryItem => inventoryItem.Name == item.Name);
-            if (isItemInInventory)
-            {
-                Console.WriteLine("이미 보유 중입니다.");
-            }
-            else
-            {
-                if (player.Gold >= item.Prices)
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
                 {
-                    inventory.AddItem(item);
-                    player.Gold -= item.Prices;
-                    Console.WriteLine("구매를 완료했습니다. ");
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            ShopOpen();
+                            break;
+                        default:
+                            if (playerChoice > 0 && playerChoice <= items.Count)
+                            {
+                                BusyItem(playerChoice);
+                            }
+                            else
+                            {
+                                Console.WriteLine("잘못된 입력입니다.");
+                                continue;
+                            }
+                            break;
+                    }
+                    break; // 올바른 선택을 하면 루프 종료
                 }
                 else
                 {
-                    Console.WriteLine("Gold 가 부족합니다.");
+                    Console.WriteLine("숫자를 입력해주세요.");
                 }
             }
-            Console.Write(">>");
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs == 0)
-            {
-                Shopping();
-            }
-            else
-            {
-                BusyItem(PlayerChoiecs);
-            }
-        }
 
-        // 아이템 판매
+            // 아이템 구매
+            void BusyItem(int itemNum)
+            {
+                var item = items[itemNum - 1];
+                // 보유 중인지 체크
+                bool isItemInInventory = Invenitems.Any(inventoryItem => inventoryItem.Name == item.Name);
+                if (isItemInInventory)
+                {
+                    Console.WriteLine("이미 보유 중입니다.");
+                }
+                else
+                {
+                    if (player.Gold >= item.Prices)
+                    {
+                        inventory.AddItem(item);
+                        player.Gold -= item.Prices;
+                        Console.WriteLine("구매를 완료했습니다. ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Gold 가 부족합니다.");
+                    }
+                }
+                Console.Write(">>");
+                while (true)
+                {
+                    if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                    {
+                        switch (playerChoice)
+                        {
+                            case 0:
+                                Shopping();
+                                break;
+                            default:
+                                if (playerChoice > 0 && playerChoice <= items.Count)
+                                {
+                                    BusyItem(playerChoice);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("잘못된 입력입니다.");
+                                    continue;
+                                }
+                                break;
+                        }
+                        break; // 올바른 선택을 하면 루프 종료
+                    }
+                    else
+                    {
+                        Console.WriteLine("숫자를 입력해주세요.");
+                    }
+                }
+            }
+
+
+        }
+            // 아이템 판매
         void SellItem()
         {
             Console.Clear();
@@ -188,28 +229,40 @@
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs > 0 && PlayerChoiecs <= Invenitems.Count)
+
+            while (true)
             {
-                SellItemSelect(PlayerChoiecs);
+                if (int.TryParse(Console.ReadLine(), out int playerChoice))
+                {
+                    switch (playerChoice)
+                    {
+                        case 0:
+                            ShopOpen();
+                            return;
+
+                        default:
+                            if (playerChoice > 0 && playerChoice <= Invenitems.Count)
+                            {
+                                SellItemSelect(playerChoice);
+                            }
+                            Console.WriteLine("잘못된 입력입니다.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요.");
+                }
             }
-            else if (PlayerChoiecs == 0)
+
+            // 판매할 아이템 선택
+            void SellItemSelect(int itemNum)
             {
-                ShopOpen();
+                var item = Invenitems[itemNum - 1];
+                player.Gold += item.Prices * 0.85;
+                inventory.RemoveItem(item);
+                SellItem();
             }
-            else
-            {
-                Console.WriteLine("잘못된 입력입니다.");
-            }
-        }
-        
-        // 판매할 아이템 선택
-        void SellItemSelect(int itemNum)
-        {
-            var item = Invenitems[itemNum - 1];
-            player.Gold += item.Prices * 0.85;
-            inventory.RemoveItem(item);
-            SellItem();
         }
     }
     }
