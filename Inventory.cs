@@ -31,9 +31,16 @@
             return items; // 아이템 리스트 반환
         }
 
+        // 아이템 리스트에 추가
         public void AddItem(Item item)
         {
             items.Add(item);
+        }
+
+        // 아이템 리스트에서 제거
+        public void RemoveItem(Item item)
+        {
+            items.Remove(item);
         }
 
 
@@ -75,7 +82,7 @@
                 for (int i = 0; i < items.Count; i++)
                 {
                     var item = items[i];
-                    Console.WriteLine($"- {i + 1}{(item.IsEquipped ? " [E]" : "")} {item.Name} | {(item.Attack == 0 ? "방어력 +" + item.Defense : "공격력 +" + item.Attack)} | {item.Description}");
+                    Console.WriteLine($"- {(item.IsEquipped ? " [E]" : "")} {item.Name} | {(item.Attack == 0 ? "방어력 +" + item.Defense : "공격력 +" + item.Attack)} | {item.Description}");
                 }
             }
             Console.WriteLine("");

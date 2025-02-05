@@ -1,4 +1,5 @@
-﻿using System.Reflection.PortableExecutable;
+﻿using System.Dynamic;
+using System.Reflection.PortableExecutable;
 
 namespace TextRPG
 {
@@ -11,6 +12,7 @@ namespace TextRPG
         private Player player;
         private Status status;
         private Shop shop;
+        private Rest rest;
 
         private Game()
         {
@@ -36,6 +38,7 @@ namespace TextRPG
             Console.WriteLine("1. 상태 보기");
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
+            Console.WriteLine("4. 휴식하기");
             Console.WriteLine("");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
@@ -53,6 +56,10 @@ namespace TextRPG
             else if (PlayerChoiecs == 3)
             {
                 ShopView();
+            }
+            else if (PlayerChoiecs == 4)
+            {
+                Rest();
             }
             else
             {
@@ -74,10 +81,18 @@ namespace TextRPG
             inventory.ShowInventory();
         }
 
+        // 상점 오픈
         public void ShopView()
         {
             shop = new Shop(player, inventory);
             shop.ShopOpen();
+        }
+
+        // 휴식하기
+        public void Rest()
+        {
+            rest = new Rest(player);
+            rest.TakeRest();
         }
 
         static void Main(string[] args)

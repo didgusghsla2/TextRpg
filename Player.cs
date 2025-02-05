@@ -7,7 +7,7 @@
         public int AttackPower { get; set; }
         public int Defense { get; set; }
         public int Hp { get; set; }
-        public int Gold { get; set; }
+        public double Gold { get; set; }
 
         public Player()
         {

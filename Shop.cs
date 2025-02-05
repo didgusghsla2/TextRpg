@@ -21,7 +21,6 @@
         }
         public void ShopOpen()
         {
-
             Console.Clear();
             Console.WriteLine("상점");
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
@@ -51,6 +50,7 @@
 
             Console.WriteLine("");
             Console.WriteLine("1. 아이템 구매");
+            Console.WriteLine("2. 아이템 판매");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("");
 
@@ -60,6 +60,9 @@
             if (PlayerChoiecs == 1)
             {
                 Shopping();
+            }else if(PlayerChoiecs == 2)
+            {
+                SellItem();
             }
             else if (PlayerChoiecs == 0)
             {
@@ -119,6 +122,8 @@
                     break;
             }
         }
+
+        // 아이템 구매
         void BusyItem(int itemNum)
         {
              var item = items[itemNum-1];
@@ -151,7 +156,59 @@
             {
                 BusyItem(PlayerChoiecs);
             }
+        }
 
+        // 아이템 판매
+        void SellItem()
+        {
+            Console.Clear();
+            Console.WriteLine("상점 - 아이템 판매");
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
+            Console.WriteLine("");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine(player.Gold + " G");
+            Console.WriteLine("");
+            Console.WriteLine("[아이템 목록]");
+            if (Invenitems.Count == 0)
+            {
+                Console.WriteLine("아이템이 없습니다.");
+            }
+            else
+            {
+                for (int i = 0; i < Invenitems.Count; i++)
+                {
+                    var item = Invenitems[i];
+
+                    Console.WriteLine($"- {i + 1}{(item.IsEquipped ? " [E]" : "")} {item.Name} | {(item.Attack == 0 ? "방어력 +" + item.Defense : "공격력 +" + item.Attack)} | {item.Description} | {item.Prices}");
+                }
+            }
+            Console.WriteLine("");
+            Console.WriteLine("0. 나가기");
+            Console.WriteLine("");
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">>");
+            int PlayerChoiecs = int.Parse(Console.ReadLine());
+            if (PlayerChoiecs > 0 && PlayerChoiecs <= items.Count)
+            {
+                SellItemSelect(PlayerChoiecs);
+            }
+            else if (PlayerChoiecs == 0)
+            {
+                ShopOpen();
+            }
+            else
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+        }
+        
+        // 판매할 아이템 선택
+        void SellItemSelect(int itemNum)
+        {
+            var item = Invenitems[itemNum - 1];
+            player.Gold += item.Prices * 0.85;
+            inventory.RemoveItem(item);
+            SellItem();
         }
     }
     }
