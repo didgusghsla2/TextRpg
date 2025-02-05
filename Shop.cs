@@ -15,6 +15,7 @@
             items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검", 2, 0, false, 600));
             items.Add(new Item("청동 도끼", "어디선가 사용됐었던거 같은 도끼", 5, 0, false, 1500));
             items.Add(new Item("스파르타의 창", "스파르타의 전사들이 사용했다는 전설의 창", 7, 0, false, 3000));
+            items.Add(new Item("가면", "착용하면 내면의 또 다른 내가 각성한다는 소문의 가면", 20, 0, false, 5000));
             this.player = player;
             this.inventory = inventory;
             Invenitems = inventory.GetItems();
@@ -179,7 +180,7 @@
                 {
                     var item = Invenitems[i];
 
-                    Console.WriteLine($"- {i + 1}{(item.IsEquipped ? " [E]" : "")} {item.Name} | {(item.Attack == 0 ? "방어력 +" + item.Defense : "공격력 +" + item.Attack)} | {item.Description} | {item.Prices}");
+                    Console.WriteLine($"- {i + 1}{(item.IsEquipped ? " [E]" : "")} {item.Name} | {(item.Attack == 0 ? "방어력 +" + item.Defense : "공격력 +" + item.Attack)} | {item.Description} | {item.Prices} G");
                 }
             }
             Console.WriteLine("");
@@ -188,7 +189,7 @@
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
             int PlayerChoiecs = int.Parse(Console.ReadLine());
-            if (PlayerChoiecs > 0 && PlayerChoiecs <= items.Count)
+            if (PlayerChoiecs > 0 && PlayerChoiecs <= Invenitems.Count)
             {
                 SellItemSelect(PlayerChoiecs);
             }
