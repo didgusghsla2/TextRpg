@@ -107,9 +107,9 @@
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
-                            continue; // 다시 입력하도록 루프 반복
+                            continue; 
                     }
-                    break; // 올바른 선택을 하면 루프 종료
+                    break; 
                 }
                 else
                 {
@@ -161,9 +161,9 @@
                             if (playerChoice > 0 && playerChoice <= items.Count)
                             {
                                 var selectedItem = items[playerChoice - 1];
-                                selectedItem.IsEquipped = !selectedItem.IsEquipped; // 장착/해제 토글
+                                selectedItem.IsEquipped = !selectedItem.IsEquipped; 
                                 EquipItem();
-                                return; // 정상 입력이면 함수 종료
+                                return; 
                             }
                             Console.WriteLine("잘못된 입력입니다.");
                             break;
@@ -176,8 +176,6 @@
 
                  
             }
-
-            // 장착 관리 다시 호출
         }
     }
 }

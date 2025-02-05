@@ -47,9 +47,9 @@
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
-                            continue; // 다시 입력하도록 루프 반복
+                            continue; 
                     }
-                    break; // 올바른 선택을 하면 루프 종료
+                    break; 
                 }
                 else
                 {

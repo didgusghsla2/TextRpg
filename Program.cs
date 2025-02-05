@@ -19,6 +19,11 @@ namespace TextRPG
             inventory = new Inventory();
             player = new Player();
         }
+        static void Main(string[] args)
+        {
+            Game program = Game.GetInstance(); 
+            program.GameMenu();
+        }
 
       public static Game GetInstance()
         {
@@ -64,9 +69,9 @@ namespace TextRPG
                             break;
                         default:
                             Console.WriteLine("잘못된 입력입니다. 다시 선택해주세요.");
-                            continue; // 다시 입력하도록 루프 반복
+                            continue; 
                     }
-                    break; // 올바른 선택을 하면 루프 종료
+                    break; 
                 }
                 else
                 {
@@ -103,11 +108,6 @@ namespace TextRPG
             rest.TakeRest();
         }
 
-        static void Main(string[] args)
-        {
-            Game program = Game.GetInstance(); 
-            program.GameMenu();
-        }
 
     }
 }
